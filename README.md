@@ -10,7 +10,7 @@
 *  본인이 원하는 곳을 클릭 한 후 관련 내용들을 셀레니움을 이용해서 가지고옵니다.
 *  가지고 온 데이터들을 저의 저장목록에 저장을 해 놓습니다. 
 *  자신만의 여행정보를 저장해놓습니다. 
-
+*  개개인의 정보를 담기 위해서 로그인 기능을 구현합니다
 
 # 사용 기술 및 환경
 flsk, javascript, ajax, sellenium, mongodb
@@ -30,7 +30,8 @@ git flow를 사용하면서 진행합니다.
 
 
 # 화면설계
-![image](https://user-images.githubusercontent.com/51309615/134464438-d9e886ba-7920-4af7-8bb4-69fb599a2128.png)
+![image](https://user-images.githubusercontent.com/51309615/134605644-6844eeac-f87f-410c-a44e-15f6575daa5d.png)
+
 
 
 
