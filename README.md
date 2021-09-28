@@ -32,6 +32,22 @@ git flow를 사용하면서 진행합니다.
 # 화면설계
 ![image](https://user-images.githubusercontent.com/51309615/134605644-6844eeac-f87f-410c-a44e-15f6575daa5d.png)
 
+# 트러블 슈팅
 
+#### 셀레니움 문제 
+<details>
+<summary>셀레니움시 copy xpath로 값을 찾지 못하거나 화면 화면 변경시 발생하는 에러 </summary>
+<div markdown="1">
+- 셀레니움으로 값을 가져오기를 원하는 부분을 xpath느 link_text를 사용하기도 했습니다.그러나 모든 부분이 xpath로 먹히지는 않습니다 그럴때는 더 상위의 태그를 체킹해보는 시도를 해보아야합니다.
+- 화면 변경시 알 수 없는 에러가 발생하기도 하는데 그 이유는 화면은 전환 했는데 셀레니움은 이전의 화면에서 아직 오지못했기때문입니다. 그래서 그부분을 기다려주기 위해서 tiem.sleep()으로 시간을 주면서 기다려주는 방법이 있습니다. 
+</div>
+</details>
 
+<details>
+<summary> .clear()를 실행해도 값이 지워지지 않는 경우 </summary>
+<div markdown="1">
+  - 값이 디폴트로 지정되어있는 경우 값을 clear()로 지워서 원하는 값을 입력하는걸로 알고있었습니다. 그러나 clear가 되지 않는 경우도 있습니다.
+  - 이럴때는 전체선택과 delete로 clear를 대체해야합니다.
+</div>
+</details>
 
