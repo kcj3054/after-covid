@@ -35,8 +35,8 @@
 
                 let dep_date = $('#text1').val()
                 let arr_date = $('#text2').val()
-                let current_loc = '서울'
-                let destination = ''
+                let current_loc = '런던'
+                let destination = $('#text3').val()
 
                 $.ajax({
                     type: "POST",
@@ -48,16 +48,14 @@
                         destination_give: destination,
                     },
                     success: function (response) {
-                        console.log('성공')
-
                         alert(response["msg"])
                         window.close()
+                    },
+                    error: function (response) {
+                        //에러 !
+                        console.log(response)
                     }
-                    // error: function (response) {
-                    //     console.log(response)
-                    // }
                 })
-
         }
     </script>
 </head>
@@ -69,6 +67,7 @@
 <input type="text" id="text2" placeholder="YYYY-MM-DD"/>
 출발지
 <input type="text" id="text3" placeholder="YYYY-MM-DD"/>
+
 <!--<p></p>-->
 <!--<div class="form-check">-->
 <!--    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">-->
@@ -114,6 +113,7 @@
 <!--	</select>-->
 <!--	-->
 <!--</label>-->
+
 <button type="button" onclick="save_flight()" class="btn btn-primary">최저가 검색</button>
 
 </body>

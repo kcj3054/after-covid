@@ -53,21 +53,23 @@ def detail():
 
 @app.route('/api/save_flight', methods=['POST'])
 def save_flight():
-    go_want = request.form['go_want']
-    go_desti = request.form['go_desti']
-    start_time = request.form['start_time']
-    end_time = request.form['end_time']
-    insert_all(go_want, go_desti, start_time, end_time)
+    go_want = request.form['current_loc_give']
+    go_desti = request.form['destination_give']
 
+    start_time = request.form['dep_date_give']
+    end_time = request.form['arr_date_give']
+    print("i'm here")
+    # 돌아갈때 시간이 텀시간이있다.
+    insert_all(go_want, go_desti, start_time, end_time)
     return jsonify({'result': 'success', 'msg': '저장 성공!'})
 
 @app.route('/api/delete_flight', methods=['POST'])
 def delete_flight():
+
     data_receive = request.form['data_give']
     db.flightinfo.delete_one({'data': data_receive})
+
     return jsonify({'result': 'success', 'msg': '삭제 성공!'})
-
-
 
 
 if __name__ == '__main__':
