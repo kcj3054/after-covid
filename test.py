@@ -9,7 +9,7 @@ from pymongo import MongoClient
 
 client = MongoClient('localhost', 27017)
 db = client.dbThree
-
+#
 def insert_all():
     db.mydb.drop()
     browser = webdriver.Chrome('./chromedriver_win32/chromedriver.exe')
@@ -114,6 +114,4 @@ def insert_all():
     }
 
     db.mydb.insert_one(doc)
-
-
 insert_all()
