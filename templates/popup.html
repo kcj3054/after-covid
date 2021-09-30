@@ -8,9 +8,13 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap" rel="stylesheet">
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -21,6 +25,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <style>
+        * {
+            font-family: 'East Sea Dokdo', cursive;
+        }
+
+        .reservation {
+            margin: 30px auto auto 30px;
+        }
+
+    </style>
     <script>
 
         // const options = document.querySelectorAll("option");
@@ -33,40 +47,43 @@
             //             console.log(selectedValue);
             //     }
 
-                let dep_date = $('#text1').val()
-                let arr_date = $('#text2').val()
-                let current_loc = '런던'
-                let destination = $('#text3').val()
+            let dep_date = $('#text1').val()
+            let arr_date = $('#text2').val()
+            let current_loc = $('#text3').val()
+            let destination = $('#text4').val()
 
-                $.ajax({
-                    type: "POST",
-                    url: '/api/save_flight',
-                    data: {
-                        dep_date_give: dep_date,
-                        arr_date_give: arr_date,
-                        current_loc_give: current_loc,
-                        destination_give: destination,
-                    },
-                    success: function (response) {
-                        alert(response["msg"])
-                        window.close()
-                    },
-                    error: function (response) {
-                        //에러 !
-                        console.log(response)
-                    }
-                })
+            $.ajax({
+                type: "POST",
+                url: '/api/save_flight',
+                data: {
+                    dep_date_give: dep_date,
+                    arr_date_give: arr_date,
+                    current_loc_give: current_loc,
+                    destination_give: destination,
+                },
+                success: function (response) {
+                    alert(response["msg"])
+                    window.close()
+                },
+                error: function (response) {
+                    //에러 !
+                    console.log(response)
+                }
+            })
         }
     </script>
 </head>
 
 <body>
-출발날짜
-<input type="text" id="text1" placeholder="YYYY-MM-DD"/>
-도착날짜
-<input type="text" id="text2" placeholder="YYYY-MM-DD"/>
-출발지
-<input type="text" id="text3" placeholder="YYYY-MM-DD"/>
+<div class="reservation">
+<h6>출발날짜</h6>
+<input type="text" id="text1" placeholder="YYYY-MM-DD"/><p></p>
+<h6>도착날짜</h6>
+<input type="text" id="text2" placeholder="YYYY-MM-DD"/><p></p>
+<h6>출발지</h6>
+<input type="text" id="text3" placeholder="Seoul"/><p></p>
+<h6>도착지</h6>
+<input type="text" id="text4" placeholder="New York"/><p></p>
 
 <!--<p></p>-->
 <!--<div class="form-check">-->
@@ -115,7 +132,7 @@
 <!--</label>-->
 
 <button type="button" onclick="save_flight()" class="btn btn-primary">최저가 검색</button>
-
+</div>
 </body>
 
 </html>

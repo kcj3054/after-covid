@@ -25,9 +25,43 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <style>
+        .cards-box {
+            margin: 30px auto auto 30px;
+        }
     </style>
 
     <script>
+        function add_flight() {
+            $.ajax({
+                type: "GET",
+                url: `/api/add_flight`,
+                data: {},
+                success: function (response) {
+                    let articles = response['all_articles']
+
+                    for (let i = 0; i < articles.length; i++) {
+                        let dep_date = articles[i]['dep_date']
+                        let arr_date = articles[i]['arr_date']
+                        let current_loc = articles[i]['current_loc']
+                        let destination = articles[i]['destination']
+
+                        let temp_html = `<div class="card" style="width: 18rem;">
+                                        <img class="card-img-top" src="../static/worldmap.jpg" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${current_loc} → ${destination}</h5>
+                                            <p class="card-text">${dep_date} ~ ${arr_date}</p>
+                                            <a href="#" class="btn btn-primary">예매</a>
+                                            <button type="button" onclick="delete_flight()" class="btn btn-secondary">삭제</button>
+                                        </div>
+                                        </div>`
+
+                        $('#cards-box').append(temp_html)
+
+                    }
+                }
+            })
+        }
+
         function delete_flight() {
             $.ajax({
                 type: "POST",
@@ -45,6 +79,18 @@
     </script>
 </head>
 <body>
+<div class="cards-box" id="cards-box">
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="../static/worldmap.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">예매</a>
+            <button type="button" onclick="delete_flight()" class="btn btn-secondary">삭제</button>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

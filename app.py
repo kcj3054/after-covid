@@ -5,6 +5,7 @@ from flask_cors import CORS
 from _google_flight_project import insert_all
 
 app = Flask(__name__)
+CORS(app)
 
 client = MongoClient('localhost', 27017)
 db = client.dbsparta
