@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 from flask import Flask, render_template, jsonify, request
-
+from flask_cors import CORS
 from _google_flight_project import insert_all
 
 app = Flask(__name__)
@@ -38,6 +38,10 @@ app = Flask(__name__)
 
 client = MongoClient('localhost', 27017, username="test", password="test")
 db = client.dbproject
+
+@app.route('/voice')
+def voicd():
+    return render_template("voice.html")
 
 @app.route('/')
 def main():
