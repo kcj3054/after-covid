@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'East Sea Dokdo', cursive;
+        }
+
+        .title {
+            /*font-size: 60px;*/
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .desc {
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+
+    <script>
+        function showPopup() {
+            window.open("popup", "a", "width=400, height=300, left=100, top=50");
+        }
+    </script>
+</head>
+</script>
+</head>
+<body>
+<div>
+    <h1 class="title">코시국 끝나고 세계여행!!</h1>
+    <!--    <h2 class="desc">Click on the city you want to buy a flight ticket to</h2>-->
+
+    <div>
+        <div style="position: absolute;">
+            <div style="position: relative; top: 250px; left: 550px;"><img
+                    src="../static/london.png"></img>
+            </div>
+        </div>
+        <div style="position: absolute;">
+            <div style="position: relative; top: 270px; left: 350px;"><img
+                    src="../static/newyork.png"></img>
+            </div>
+        </div>
+        <div style="position: absolute;">
+            <div style="position: relative; top: 260px; left: 570px;"><img
+                    src="../static/paris.png"></img>
+            </div>
+        </div>
+        <div style="position: absolute;">
+            <div style="position: relative; top: 330px; left: 800px;"><img
+                    src="../static/agra.png"></img>
+            </div>
+        </div>
+        <div style="position: absolute;">
+            <div style="position: relative; top: 285px; left: 980px;"><img
+                    src="../static/tokyo.png"></img>
+            </div>
+        </div>
+        <div style="position: absolute;">
+            <div style="position: relative; top: 470px; left: 1000px;"><img
+                    src="../static/sydney.png"></img>
+            </div>
+        </div>
+
+
+        <img src="../static/worldmap.jpg" alt="Worldmap" usemap="#worldmap"
+             width="1200" height="650">
+
+        <map name="worldmap">
+<!--            <area shape="rect" coords="34,44,270,350" alt="london" onclick="showPopup();">-->
+<!--            <area shape="rect" coords="290,172,333,250" alt="newyork" onclick="showPopup();">-->
+<!--사이트에서 복붙한 위 coords 좌표(페이지 왼쪽 상단)로 하면 popup 창이 정상적으로 뜨는데, 아래 좌표를 넣으면 팝업창이 안떠요-->
+
+            <area shape="rect" coords="24,54,260,560" alt="london" onclick="showPopup();">
+            <area shape="rect" coords="26,34,280,360" alt="newyork" onclick="showPopup();">
+            <area shape="rect" coords="25,56,270,580" alt="paris" onclick="showPopup();">
+            <area shape="rect" coords="32,79,340,810" alt="agra" onclick="showPopup();">
+            <area shape="rect" coords="27,97,295,990" alt="tokyo" onclick="showPopup();">
+            <area shape="rect" coords="46,99,480,1010" alt="sydney" onclick="showPopup();">
+        </map>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,714 @@
+<!DOCTYPE HTML>
+<!--
+	Astral by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+	<title>파파파고</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="../static/assets/css/main.css" />
+
+	<!-- for webkit animation -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+
+	<noscript>
+		<link rel="stylesheet" href="../static/assets/css/noscript.css" /></noscript>
+
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+		.textbox {
+			background-color: #ffb4a2;
+			white-space: pre-wrap;
+			overflow: auto;
+			font-family: 'Do Hyeon', sans-serif;
+			color: black;
+		}
+
+		#head {
+
+			overflow: auto;
+			height: 50vh;
+			justify-content: center;
+			align-items: stretch;
+		}
+
+		#innerdiv:nth-child(odd) {
+			background-color: #ffcdb2;
+		}
+
+		#google_translate_element {
+			position: fixed;
+			top: 0px;
+			right: 0px;
+		}
+
+		#speech_kr {
+			position: fixed;
+			font-size: 100%;
+			width: 25%;
+			top: 0;
+			left: 0;
+			background: rgba(255, 255, 255, 0);
+			border-bottom: 1px solid #FFFFFF;
+			padding: 1%;
+		}
+
+		#speech_en {
+			font-size: 100%;
+			position: fixed;
+			width: 25%;
+			top: 0;
+			left: 25%;
+
+			background: rgba(255, 255, 255, 0);
+			border-bottom: 1px solid #FFFFFF;
+			padding: 1%;
+		}
+
+		#speech_ja {
+			font-size: 100%;
+			position: fixed;
+			width: 25%;
+			top: 0;
+			left: 50%;
+			background: rgba(255, 255, 255, 0);
+			border-bottom: 1px solid #FFFFFF;
+			padding: 1%;
+		}
+
+		#ml {
+			font-size: 100%;
+			position: fixed;
+			width: 25%;
+			top: 0;
+			left: 75%;
+			background: rgba(255, 255, 255, 0);
+			border-bottom: 1px solid #FFFFFF;
+			padding: 1%;
+		}
+
+		#ml:hover,
+		#speech_kr:hover,
+		#speech_en:hover,
+		#speech_ja:hover {
+			color: black;
+		}
+
+		#toast1,
+		#toast2,
+		#toast3 {
+			visibility: hidden;
+			position: fixed;
+			bottom: 100px;
+			left: 50%;
+			transform: translateX(-50%);
+			min-width: 100px;
+			border-radius: 25px;
+			background-color: #666666;
+			color: #FFFFFF;
+			padding: 15px 25px;
+			z-index: 99999;
+		}
+
+		#toast1.show,
+		#toast2.show,
+		#toast3.show {
+			visibility: visible;
+			animation: fade-in 700ms, fade-out 700ms 2000ms;
+		}
+
+		@keyframes fade-in {
+			from {
+				opacity: 0;
+			}
+
+			to {
+				opacity: 1;
+			}
+		}
+
+		@keyframes fade-out {
+			from {
+				opacity: 1;
+			}
+
+			to {
+				opacity: 0;
+			}
+		}
+
+		/* #fff{
+			position: fixed;
+			top: 0%;
+			right: 0%;
+			width:5%;
+			border-radius:100%;
+			box-sizing:border-box;
+			z-index:1001;
+			-webkit-animation:mymove 5s infinite;
+		}
+		@-webkit-keyframes mymove{
+			0%   {left:0%; top:0%;}
+			25%  {left:95%; top:0%;}
+			50%  {left:95%; top:90%;}
+			75%  {left:0%; top:90%;}
+			100% {left:0%; top:0%;}
+		} */
+	</style>
+</head>
+
+<body class="is-preload">
+	<!--toast!!!!!!!!-->
+	<!-- <img id="fff" src="images/kumoh1.png"/> -->
+	<!-- ???? -->
+	<div id="toast1">'초인종' 소리가 감지되었습니다</div>
+	<div id="toast2">'세탁기' 소리가 감지되었습니다</div>
+	<div id="toast3">'전자레인지' 소리가 감지되었습니다</div>
+	<script>
+		var isToastShown = false;
+		var toast1 = document.getElementById('toast1');
+		var toast2 = document.getElementById('toast2');
+		var toast3 = document.getElementById('toast3');
+	</script>
+
+
+	<!-- Wrapper-->
+	<div id="wrapper">
+
+		<!-- Nav -->
+		<nav id="nav">
+			<a href="#" class="icon solid fa-home"><span>Home</span></a>
+			<a href="#work" class="icon solid fa-folder"><span>Log</span></a>
+			<a href="#contact" class="icon solid fa-envelope"><span>Contact</span></a>
+			<!-- <a href="https://twitter.com/ajlkn" class="icon brands fa-twitter"><span>Twitter</span></a> -->
+		</nav>
+
+		<!-- Main -->
+		<div id="main">
+
+			<!-- Me -->
+			<article id="home" class="panel intro">
+				<header id="head">
+
+					<!-- <h2>20/05/09_소리학습추가</h2> -->
+					<div class="col-12">
+
+						<!-- <div class="textbox"></div><br /> -->
+						<div>
+							<div class="textbox"></div><br />
+						</div>
+
+						<button id="speech_kr" onclick="speech_to_text_kr()">한글 STT</button>
+						<button id="speech_en" onclick="speech_to_text_en()">영어 STT</button>
+						<button id="speech_ja" onclick="speech_to_text_ja()">일어 STT</button>
+						<button id="ml" type="button" onclick="init()">일상 소리 감지 Start</button>
+
+						<div id="google_translate_element"></div>
+						<script type="text/javascript">
+							function googleTranslateElementInit() {
+								new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,ja,ko,zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element');
+							}
+						</script>
+						<script type="text/javascript"
+							src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+					</div>
+					<!--<div>Teachable Machine Audio Model</div>-->
+					<div id="label-container"></div>
+					<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+					<script
+						src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.4.0/dist/speech-commands.min.js"></script>
+
+					<script type="text/javascript">
+						// more documentation available at
+						// https://github.com/tensorflow/tfjs-models/tree/master/speech-commands
+
+						// the link to your model provided by Teachable Machine export panel
+						//const URL = "./my_model/";
+						const URL = "https://daewontest1.netlify.app/my_model/"
+						var today = new Date();
+						async function createModel() {
+							const checkpointURL = URL + "model.json"; // model topology
+							const metadataURL = URL + "metadata.json"; // model metadata
+
+							const recognizer = speechCommands.create(
+								"BROWSER_FFT", // fourier transform type, not useful to change
+								undefined, // speech commands vocabulary feature, not useful for your models
+								checkpointURL,
+								metadataURL);
+
+							// check that model and metadata are loaded via HTTPS requests.
+							await recognizer.ensureModelLoaded();
+
+							return recognizer;
+						}
+
+						async function init() {
+
+							const recognizer = await createModel();
+							const classLabels = recognizer.wordLabels(); // get class labels
+							const labelContainer = document.getElementById("label-container");
+							for (let i = 0; i < classLabels.length; i++) {
+								labelContainer.appendChild(document.createElement("div"));
+							}
+
+							// listen() takes two arguments:
+							// 1. A callback function that is invoked anytime a word is recognized.
+							// 2. A configuration object with adjustable fields
+							recognizer.listen(result => {
+								const scores = result.scores; // probability of prediction for each class
+								// render the probability scores per class
+								var logbox = document.querySelector(".logbox")
+								for (let i = 0; i < classLabels.length; i++) {
+									const classPrediction = classLabels[i] + ": " + result.scores[i].toFixed(2);
+									labelContainer.childNodes[i].innerHTML = classPrediction;
+									if (classLabels[i].indexOf("_background_noise_") < 0) {
+										if (result.scores[i] >= 0.9) {
+											console.log(classLabels[i]);
+											if (classLabels[i].indexOf("bell") >= 0) {
+												var logdate = "<div>" + today.toLocaleString() + "</div>";
+												var logtemp = "<div id='loginnerdiv'>초인종 소리가 감지되었습니다.</dlv>";
+												var tt = "<div>" + logdate + logtemp + "</div>"
+												logbox.innerHTML = tt + logbox.innerHTML;
+												if (!isToastShown) {
+													isToastShown = true;
+													toast1.classList.add('show');    // show라는 클래스를 추가해서 토스트 메시지를 띄우는 애니메이션을 발동시킴
+													setTimeout(function () {
+														// 2700ms 후에 show 클래스를 제거함
+														toast1.classList.remove('show');
+														isToastShown = false;
+													}, 2700);
+												}
+											}
+											else if (classLabels[i].indexOf("washer") >= 0) {
+												var logdate = "<div>" + today.toLocaleString() + "</div>";
+												var logtemp = "<div id='loginnerdiv'>세탁기 소리가 감지되었습니다.</dlv>";
+												var tt = "<div>" + logdate + logtemp + "</div>"
+												logbox.innerHTML = tt + logbox.innerHTML;
+												if (!isToastShown) {
+													isToastShown = true;
+													toast2.classList.add('show');    // show라는 클래스를 추가해서 토스트 메시지를 띄우는 애니메이션을 발동시킴
+													setTimeout(function () {
+														// 2700ms 후에 show 클래스를 제거함
+														toast2.classList.remove('show');
+														isToastShown = false;
+													}, 2700);
+												}
+											}
+											else if (classLabels[i].indexOf("microwave") >= 0) {
+												var logdate = "<div>" + today.toLocaleString() + "</div>";
+												var logtemp = "<div id='loginnerdiv'>전자레인지 소리가 감지되었습니다.</dlv>";
+												var tt = "<div>" + logdate + logtemp + "</div>"
+												logbox.innerHTML = tt + logbox.innerHTML;
+												if (!isToastShown) {
+													isToastShown = true;
+													toast3.classList.add('show');    // show라는 클래스를 추가해서 토스트 메시지를 띄우는 애니메이션을 발동시킴
+													setTimeout(function () {
+														// 2700ms 후에 show 클래스를 제거함
+														toast3.classList.remove('show');
+														isToastShown = false;
+													}, 2700);
+												}
+											}
+										}
+									}
+
+								}
+
+							}, {
+								includeSpectrogram: true, // in case listen should return result.spectrogram
+								probabilityThreshold: 0.75,
+								invokeCallbackOnNoiseAndUnknown: true,
+								overlapFactor: 0.50 // probably want between 0.5 and 0.75. More info in README
+							});
+
+							// Stop the recognition in 5 seconds.
+							// setTimeout(() => recognizer.stopListening(), 5000);
+						}
+					</script>
+				</header>
+				<a href="#work" class="jumplink pic">
+					<!-- <span class="arrow icon solid fa-chevron-right"><span>See my work</span></span> -->
+					<img src="../static/images/stt.png" alt="" />
+				</a>
+			</article>
+
+			<!-- Work -->
+			<article id="work" class="panel">
+				<header>
+					<h2>소리 감지 로그</h2>
+				</header>
+				<div class="logbox">
+
+				</div>
+				<section>
+					<div class="row">
+						<!-- <div class="col-4 col-6-medium col-12-small">
+							<a href="#" class="image fit"><img src="images/pic01.jpg" alt=""></a>
+						</div>
+						<div class="col-4 col-6-medium col-12-small">
+							<a href="#" class="image fit"><img src="images/pic02.jpg" alt=""></a>
+						</div>
+						<div class="col-4 col-6-medium col-12-small">
+							<a href="#" class="image fit"><img src="images/pic03.jpg" alt=""></a>
+						</div>
+						<div class="col-4 col-6-medium col-12-small">
+							<a href="#" class="image fit"><img src="images/pic04.jpg" alt=""></a>
+						</div>
+						<div class="col-4 col-6-medium col-12-small">
+							<a href="#" class="image fit"><img src="images/pic05.jpg" alt=""></a>
+						</div>
+						<div class="col-4 col-6-medium col-12-small">
+							<a href="#" class="image fit"><img src="images/pic06.jpg" alt=""></a>
+						</div>
+						<div class="col-4 col-6-medium col-12-small">
+							<a href="#" class="image fit"><img src="images/pic07.jpg" alt=""></a>
+						</div>
+						<div class="col-4 col-6-medium col-12-small">
+							<a href="#" class="image fit"><img src="images/pic08.jpg" alt=""></a>
+						</div>
+						<div class="col-4 col-6-medium col-12-small">
+							<a href="#" class="image fit"><img src="images/pic09.jpg" alt=""></a>
+						</div>
+						<div class="col-4 col-6-medium col-12-small">
+							<a href="#" class="image fit"><img src="images/pic10.jpg" alt=""></a>
+						</div>
+						<div class="col-4 col-6-medium col-12-small">
+							<a href="#" class="image fit"><img src="images/pic11.jpg" alt=""></a>
+						</div>
+						<div class="col-4 col-6-medium col-12-small">
+							<a href="#" class="image fit"><img src="images/pic12.jpg" alt=""></a>
+						</div> -->
+					</div>
+				</section>
+			</article>
+
+			<!-- Contact -->
+			<article id="contact" class="panel">
+				<header>
+					<h2>Developed by...</h2>
+				</header>
+				<form action="#" method="post">
+					<div>
+						<div class="row">
+							<!-- <div class="col-6 col-12-medium">
+								<input type="text" name="name" placeholder="Name" />
+							</div>
+							<div class="col-6 col-12-medium">
+								<input type="text" name="email" placeholder="Email" />
+							</div>
+							<div class="col-12">
+								<input type="text" name="subject" placeholder="Subject" />
+							</div> -->
+
+						</div>
+
+					</div>
+
+				</form>
+			</article>
+
+		</div>
+
+		<!-- Footer -->
+		<!-- <div id="footer">
+			<ul class="copyright">
+				<li>&copy; Untitled.</li>
+				<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+			</ul>
+		</div> -->
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="../static/assets/js/jquery.min.js"></script>
+	<script src="../static/assets/js/browser.min.js"></script>
+	<script src="../static/assets/js/breakpoints.min.js"></script>
+	<script src="../static/assets/js/util.js"></script>
+	<script src="../static/assets/js/main.js"></script>
+	<script type="text/javascript">
+		//var message = document.querySelector("#message");
+		var button_kr = document.querySelector("#speech_kr");
+		var button_en = document.querySelector("#speech_en");
+		var button_ja = document.querySelector("#speech_ja");
+		//var korea = document.querySelector("#korea");
+		//var english = document.querySelector("#english");
+		var textbox = document.querySelector(".textbox")//추가
+
+		var kr_isRecognizing = false;
+		var ja_isRecognizing = false;
+		var en_isRecognizing = false;
+
+		function sleep(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+
+		var kr_flag = 0;
+		try {
+			var kr_recognition = new window.webkitSpeechRecognition;
+			//new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+		} catch (e) {
+			console.error(e);
+		}
+
+		function speech_to_text_kr() {
+			if (kr_flag != 0) {
+				kr_recognition.stop();
+				kr_flag = 0;
+
+				button_en.disabled = false;
+				button_ja.disabled = false;
+
+				return;
+			}
+			else {
+				kr_flag = 1;
+				button_en.disabled = true;
+				button_ja.disabled = true;
+			}
+
+			//https://codeburst.io/html5-speech-recognition-api-670846a50e92
+			//webkitSpeechRecognition 참고사이트입니다ㅏㅏㅏ
+			kr_recognition.lang = 'ko-KR'; //선택하게 해줘야 할듯 . 
+			kr_recognition.interimResults = true;
+			kr_recognition.maxAlternatives = 5;
+			kr_recognition.continuous = false;//주석해제했음
+
+			//??
+			//recognition.serviceURI = "https://www.youtube.com/watch?v=VSoBO89uBFk";
+
+			var resText = "";
+			var temp = textbox.innerHTML;
+			kr_recognition.start();
+			kr_isRecognizing = true;
+
+
+			kr_recognition.onstart = function () {
+				console.log("음성인식이 시작 되었습니다. 이제 마이크에 무슨 말이든 하세요.")
+				//message.innerHTML = "음성인식 시작...";
+				button_kr.innerHTML = "인식중...";
+				// button_kr.disabled = true;
+			}
+
+			kr_recognition.onspeechend = function () {
+				//message.innerHTML = "버튼을 누르고 아무말이나 하세요.";
+				// button_kr.disabled = false;
+				button_kr.innerHTML = "한글 STT";
+				console.log("onspeechend start");
+			}
+			kr_recognition.onresult = function (event) {
+				console.log('You said: ', event.results[0][0].transcript);
+
+				resText = event.results[0][0].transcript;
+				resText += "\n";
+				resText = "<div id='innerdiv'>" + resText;
+				resText += "</div>";
+				textbox.innerHTML = resText + temp;
+				resText = "";
+
+			};
+			kr_recognition.onend = function () {
+				if (resText.indexOf("empty string") >= 0) {
+					resText = "아무것도 안들림!\n";
+				}
+				temp = textbox.innerHTML;
+				textbox.innerHTML = resText + temp;
+				// button_kr.disabled = false;
+				button_kr.innerHTML = "한글 STT";
+				kr_isRecognizing = false;
+				if (kr_flag == 1) {
+					kr_recognition.start();
+				}
+			}
+			kr_recognition.onsoundend = function () {
+				console.log('end!');
+				//recognition.stop();
+				kr_recognition.abort();
+				kr_recognition.start();
+
+			}
+
+		}
+
+		var ja_flag = 0;
+		try {
+			var ja_recognition = new window.webkitSpeechRecognition;
+			//new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+		} catch (e) {
+			console.error(e);
+		}
+
+		function speech_to_text_ja() {
+			if (ja_flag != 0) {
+				ja_recognition.stop();
+				ja_flag = 0;
+
+				button_kr.disabled = false;
+				button_en.disabled = false;
+
+				return;
+			}
+			else {
+				ja_flag = 1;
+
+				button_kr.disabled = true;
+				button_en.disabled = true;
+			}
+
+			//https://codeburst.io/html5-speech-recognition-api-670846a50e92
+			//webkitSpeechRecognition 참고사이트입니다ㅏㅏㅏ
+			ja_recognition.lang = 'ja-JP'; //선택하게 해줘야 할듯 . 
+			ja_recognition.interimResults = true;
+			ja_recognition.maxAlternatives = 5;
+			ja_recognition.continuous = false;//주석해제했음
+
+			//??
+			//recognition.serviceURI = "https://www.youtube.com/watch?v=VSoBO89uBFk";
+
+			var resText = "";
+			var temp = textbox.innerHTML;
+			ja_recognition.start();
+			ja_isRecognizing = true;
+
+
+			ja_recognition.onstart = function () {
+				console.log("음성인식이 시작 되었습니다. 이제 마이크에 무슨 말이든 하세요.")
+				//message.innerHTML = "음성인식 시작...";
+				button_ja.innerHTML = "인식중...";
+				// button_kr.disabled = true;
+			}
+
+			ja_recognition.onspeechend = function () {
+				//message.innerHTML = "버튼을 누르고 아무말이나 하세요.";
+				// button_kr.disabled = false;
+				button_ja.innerHTML = "일어 STT";
+				console.log("onspeechend start");
+			}
+			ja_recognition.onresult = function (event) {
+				console.log('You said: ', event.results[0][0].transcript);
+
+				resText = event.results[0][0].transcript;
+				resText += "\n";
+				resText = "<div id='innerdiv'>" + resText;
+				resText += "</div>";
+				textbox.innerHTML = resText + temp;
+				resText = "";
+
+			};
+			ja_recognition.onend = function () {
+				if (resText.indexOf("empty string") >= 0) {
+					resText = "아무것도 안들림!\n";
+				}
+				temp = textbox.innerHTML;
+				textbox.innerHTML = resText + temp;
+				// button_kr.disabled = false;
+				button_ja.innerHTML = "일어 STT";
+				ja_isRecognizing = false;
+				if (ja_flag == 1) {
+					ja_recognition.start();
+				}
+			}
+			ja_recognition.onsoundend = function () {
+				console.log('end!');
+				//recognition.stop();
+				ja_recognition.abort();
+				ja_recognition.start();
+
+			}
+		}
+
+
+		var en_flag = 0;
+		try {
+			var en_recognition = new window.webkitSpeechRecognition;
+			//new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+		} catch (e) {
+			console.error(e);
+		}
+
+		function speech_to_text_en() {
+			if (en_flag != 0) {
+				en_recognition.stop();
+				en_flag = 0;
+
+				button_kr.disabled = false;
+				button_ja.disabled = false;
+				return;
+			}
+			else {
+				en_flag = 1;
+				button_kr.disabled = true;
+				button_ja.disabled = true;
+			}
+
+			//https://codeburst.io/html5-speech-recognition-api-670846a50e92
+			//webkitSpeechRecognition 참고사이트입니다ㅏㅏㅏ
+			en_recognition.lang = 'en-US'; //선택하게 해줘야 할듯 . 
+			en_recognition.interimResults = true;
+			en_recognition.maxAlternatives = 5;
+			en_recognition.continuous = false;//주석해제했음
+
+			//??
+			//recognition.serviceURI = "https://www.youtube.com/watch?v=VSoBO89uBFk";
+
+			var resText = "";
+			var temp = textbox.innerHTML;
+			en_recognition.start();
+			en_isRecognizing = true;
+
+
+			en_recognition.onstart = function () {
+				console.log("음성인식이 시작 되었습니다. 이제 마이크에 무슨 말이든 하세요.")
+				//message.innerHTML = "음성인식 시작...";
+				button_en.innerHTML = "인식중...";
+				// button_kr.disabled = true;
+			}
+
+			en_recognition.onspeechend = function () {
+				//message.innerHTML = "버튼을 누르고 아무말이나 하세요.";
+				// button_kr.disabled = false;
+				button_en.innerHTML = "영어 STT";
+				console.log("onspeechend start");
+			}
+			en_recognition.onresult = function (event) {
+				console.log('You said: ', event.results[0][0].transcript);
+
+				resText = event.results[0][0].transcript;
+				resText += "\n";
+				resText = "<div id='innerdiv'>" + resText;
+				resText += "</div>";
+				textbox.innerHTML = resText + temp;
+				resText = "";
+
+			};
+			en_recognition.onend = function () {
+				if (resText.indexOf("empty string") >= 0) {
+					resText = "아무것도 안들림!\n";
+				}
+				temp = textbox.innerHTML;
+				textbox.innerHTML = resText + temp;
+				// button_kr.disabled = false;
+				button_en.innerHTML = "영어 STT";
+				en_isRecognizing = false;
+				if (en_flag == 1) {
+					en_recognition.start();
+				}
+			}
+			en_recognition.onsoundend = function () {
+				console.log('end!');
+				//recognition.stop();
+				en_recognition.abort();
+				en_recognition.start();
+
+			}
+		}
+
+	</script>
+</body>
+
+</html>

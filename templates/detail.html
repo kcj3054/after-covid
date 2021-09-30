@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>My flights bookmark</title>
+    <meta property="og:title" content="내 항공권"/>
+    <meta property="og:description" content="관심 항공권 정보"/>
+    <meta property="og:image" content="{{ url_for('static', filename='') }}"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <style>
+        .cards-box {
+            margin: 30px auto auto 30px;
+        }
+    </style>
+
+    <script>
+        function add_flight() {
+            $.ajax({
+                type: "GET",
+                url: `/api/add_flight`,
+                data: {},
+                success: function (response) {
+                    let articles = response['all_articles']
+
+                    for (let i = 0; i < articles.length; i++) {
+                        let dep_date = articles[i]['dep_date']
+                        let arr_date = articles[i]['arr_date']
+                        let current_loc = articles[i]['current_loc']
+                        let destination = articles[i]['destination']
+
+                        let temp_html = `<div class="card" style="width: 18rem;">
+                                        <img class="card-img-top" src="../static/worldmap.jpg" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${current_loc} → ${destination}</h5>
+                                            <p class="card-text">${dep_date} ~ ${arr_date}</p>
+                                            <a href="#" class="btn btn-primary">예매</a>
+                                            <button type="button" onclick="delete_flight()" class="btn btn-secondary">삭제</button>
+                                        </div>
+                                        </div>`
+
+                        $('#cards-box').append(temp_html)
+
+                    }
+                }
+            })
+        }
+
+        function delete_flight() {
+            $.ajax({
+                type: "POST",
+                url: `/api/delete_flight`,
+                data: {
+                    data_give: data
+                },
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.href = '/detail'
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+<div class="cards-box" id="cards-box">
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="../static/worldmap.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">예매</a>
+            <button type="button" onclick="delete_flight()" class="btn btn-secondary">삭제</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
