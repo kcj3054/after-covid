@@ -2,10 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Travel Diary</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap" rel="stylesheet">
+
+        <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
     <style>
         * {
@@ -35,56 +50,76 @@
 </head>
 <body>
 <div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/detail" onclick="add_flight()">Bookmark</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Diary</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div>
     <h1 class="title">코시국 끝나고 세계여행!!</h1>
     <!--    <h2 class="desc">Click on the city you want to buy a flight ticket to</h2>-->
 
     <div>
-        <div style="position: absolute;">
-            <div style="position: relative; top: 250px; left: 550px;"><img
-                    src="../static/london.png"></img>
-            </div>
-        </div>
-        <div style="position: absolute;">
-            <div style="position: relative; top: 270px; left: 350px;"><img
-                    src="../static/newyork.png"></img>
-            </div>
-        </div>
-        <div style="position: absolute;">
-            <div style="position: relative; top: 260px; left: 570px;"><img
-                    src="../static/paris.png"></img>
-            </div>
-        </div>
-        <div style="position: absolute;">
-            <div style="position: relative; top: 330px; left: 800px;"><img
-                    src="../static/agra.png"></img>
-            </div>
-        </div>
-        <div style="position: absolute;">
-            <div style="position: relative; top: 285px; left: 980px;"><img
-                    src="../static/tokyo.png"></img>
-            </div>
-        </div>
-        <div style="position: absolute;">
-            <div style="position: relative; top: 470px; left: 1000px;"><img
-                    src="../static/sydney.png"></img>
-            </div>
-        </div>
+{#        <div style="position: absolute;">#}
+{#            <div style="position: relative; top: 250px; left: 550px;"><img#}
+{#                    src="../static/london.png"></img>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div style="position: absolute;">#}
+{#            <div style="position: relative; top: 270px; left: 350px;"><img#}
+{#                    src="../static/newyork.png"></img>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div style="position: absolute;">#}
+{#            <div style="position: relative; top: 260px; left: 570px;"><img#}
+{#                    src="../static/paris.png"></img>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div style="position: absolute;">#}
+{#            <div style="position: relative; top: 330px; left: 800px;"><img#}
+{#                    src="../static/agra.png"></img>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div style="position: absolute;">#}
+{#            <div style="position: relative; top: 285px; left: 980px;"><img#}
+{#                    src="../static/tokyo.png"></img>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div style="position: absolute;">#}
+{#            <div style="position: relative; top: 470px; left: 1000px;"><img#}
+{#                    src="../static/sydney.png"></img>#}
+{#            </div>#}
+{#        </div>#}
 
 
-        <img src="../static/worldmap.jpg" alt="Worldmap" usemap="#worldmap"
+        <img src="../static/worldmap.png" alt="Worldmap" usemap="#worldmap"
              width="1200" height="650">
 
         <map name="worldmap">
-<!--            <area shape="rect" coords="34,44,270,350" alt="london" onclick="showPopup();">-->
-<!--            <area shape="rect" coords="290,172,333,250" alt="newyork" onclick="showPopup();">-->
+            <area shape="rect" coords="345,274,387,330" alt="newyork" onclick="showPopup();">
+            <area shape="rect" coords="546,240,583,287" alt="london" onclick="showPopup();">
+            <area shape="rect" coords="554,294,602,344" alt="paris" onclick="showPopup();">
+            <area shape="rect" coords="780,348,840,389" alt="agra" onclick="showPopup();">
+            <area shape="rect" coords="981,298,1005,365" alt="tokyo" onclick="showPopup();">
+            <area shape="rect" coords="998,467,1049,494" alt="sydney" onclick="showPopup();">
 <!--사이트에서 복붙한 위 coords 좌표(페이지 왼쪽 상단)로 하면 popup 창이 정상적으로 뜨는데, 아래 좌표를 넣으면 팝업창이 안떠요-->
 
-            <area shape="rect" coords="24,54,260,560" alt="london" onclick="showPopup();">
-            <area shape="rect" coords="26,34,280,360" alt="newyork" onclick="showPopup();">
-            <area shape="rect" coords="25,56,270,580" alt="paris" onclick="showPopup();">
-            <area shape="rect" coords="32,79,340,810" alt="agra" onclick="showPopup();">
-            <area shape="rect" coords="27,97,295,990" alt="tokyo" onclick="showPopup();">
-            <area shape="rect" coords="46,99,480,1010" alt="sydney" onclick="showPopup();">
         </map>
 
     </div>

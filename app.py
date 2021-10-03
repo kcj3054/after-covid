@@ -7,8 +7,9 @@ from _google_flight_project import insert_all
 app = Flask(__name__)
 CORS(app)
 
+# client = MongoClient('mongodb://test:test@13.125.216.47', 27017)
 client = MongoClient('localhost', 27017)
-db = client.dbsparta
+db = client.dbThree
 
 @app.route('/')
 def home():
@@ -41,7 +42,7 @@ client = MongoClient('localhost', 27017, username="test", password="test")
 db = client.dbproject
 
 @app.route('/voice')
-def voicd():
+def voice():
     return render_template("voice.html")
 
 @app.route('/')
@@ -60,19 +61,23 @@ def detail():
 def save_flight():
     go_want = request.form['current_loc_give']
     go_desti = request.form['destination_give']
-
     start_time = request.form['dep_date_give']
     end_time = request.form['arr_date_give']
     print("i'm here")
     # 돌아갈때 시간이 텀시간이있다.
     insert_all(go_want, go_desti, start_time, end_time)
-    return jsonify({'result': 'success', 'msg': '저장 성공!'})
+    return jsonify({'result': 'success', 'msg': '북마크를 확인하세요!'})
+
+@app.route('/api/add_flight', methods=['GET'])
+def add_flight():
+    articles = list(db.mydb.find({}, {'_id': False}))
+    return jsonify({'all_articles': articles})
 
 @app.route('/api/delete_flight', methods=['POST'])
 def delete_flight():
 
-    data_receive = request.form['data_give']
-    db.flightinfo.delete_one({'data': data_receive})
+    go_want = request.form['go_want_give']
+    db.flightinfo.delete_one({'go_want': go_want})
 
     return jsonify({'result': 'success', 'msg': '삭제 성공!'})
 
