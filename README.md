@@ -18,7 +18,7 @@
 3. 트러블 슈팅
 
 # 사용 기술 및 환경
-flsk, javascript, ajax, sellenium, mongodb
+flsk, javascript, ajax, sellenium, mongodb, jwt, git, aws
 
 # 맴버 구성 
 - 김영산, 김창주, 우정윤
