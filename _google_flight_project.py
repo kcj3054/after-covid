@@ -1,4 +1,5 @@
 import time
+import chromedriver as chromedriver
 import requests
 import re
 from bs4 import BeautifulSoup
@@ -10,8 +11,11 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client.dbThree
 
-
 def insert_all(go_want, go_desti, start_day, end_day):
+
+    # options = webdriver.ChromeOptions()
+    # options.add_argument("headless")
+    # browser = webdriver.Chrome(r'chromedriver', options = options)
     db.mydb.drop()
     browser = webdriver.Chrome('./chromedriver_win32/chromedriver.exe')
     browser.maximize_window()
@@ -93,8 +97,6 @@ def insert_all(go_want, go_desti, start_day, end_day):
     info = list()
     # #
     # #
-
-
     # 디버깅 테스트용 반복문
     for i in elems:
         if i.text == "" or len(i.text) < 20:

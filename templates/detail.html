@@ -7,6 +7,9 @@
     <meta property="og:title" content="내 항공권"/>
     <meta property="og:description" content="관심 항공권 정보"/>
     <meta property="og:image" content="{{ url_for('static', filename='') }}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -25,6 +28,10 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <style>
+        * {
+            font-family: 'East Sea Dokdo', cursive;
+        }
+
         .cards-box {
             margin: 30px auto auto 30px;
         }
@@ -40,17 +47,17 @@
                     let articles = response['all_articles']
 
                     for (let i = 0; i < articles.length; i++) {
-                        let dep_date = articles[i]['dep_date']
-                        let arr_date = articles[i]['arr_date']
-                        let current_loc = articles[i]['current_loc']
-                        let destination = articles[i]['destination']
+                        let dep_date = articles[i]['start_day']
+                        let arr_date = articles[i]['end_day']
+                        let current_loc = articles[i]['go_want']
+                        let destination = articles[i]['go_desti']
 
                         let temp_html = `<div class="card" style="width: 18rem;">
-                                        <img class="card-img-top" src="../static/worldmap.jpg" alt="Card image cap">
+                                        <img class="card-img-top" src="../static/worldmap.png" alt="Card image cap">
                                         <div class="card-body">
-                                            <h5 class="card-title">${current_loc} → ${destination}</h5>
+                                            <h5 class="card-title">${current_loc} ✈ ${destination}</h5>
                                             <p class="card-text">${dep_date} ~ ${arr_date}</p>
-                                            <a href="#" class="btn btn-primary">예매</a>
+                                            <a href="#" class="btn btn-primary">상세정보</a>
                                             <button type="button" onclick="delete_flight()" class="btn btn-secondary">삭제</button>
                                         </div>
                                         </div>`
@@ -63,11 +70,13 @@
         }
 
         function delete_flight() {
+            let go_want = '서울'
+
             $.ajax({
                 type: "POST",
                 url: `/api/delete_flight`,
                 data: {
-                    data_give: data
+                    go_want_give: go_want
                 },
                 success: function (response) {
                     alert(response["msg"])
@@ -81,12 +90,11 @@
 <body>
 <div class="cards-box" id="cards-box">
     <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="../static/worldmap.jpg" alt="Card image cap">
+        <img class="card-img-top" src="../static/barcelona.jpg" alt="Card image cap">
         <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-            <a href="#" class="btn btn-primary">예매</a>
+            <h5 class="card-title">서울 ✈ 바르셀로나</h5>
+            <p class="card-text">10월 15일 - 10월 20일</p>
+            <a href="#" class="btn btn-primary">상세정보</a>
             <button type="button" onclick="delete_flight()" class="btn btn-secondary">삭제</button>
         </div>
     </div>
