@@ -58,7 +58,7 @@ def api_login():
             'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60 * 60 * 24)
         }
         # 문자열객체는 decode가 없다네 ? ~
-        token = jwt.encode(payload, 'end', algorithm='HS256').decode('utf-8')
+        token = jwt.encode(payload, 'end', algorithm='HS256')
         return jsonify({'result': 'success', 'token': token})
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
