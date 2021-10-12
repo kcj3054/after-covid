@@ -8,6 +8,7 @@ from selenium.webdriver.common.keys import Keys
 
 from pymongo import MongoClient
 
+# client = MongoClient('mongodb://test:test@13.125.216.47', 27017)
 client = MongoClient('localhost', 27017)
 db = client.dbThree
 
@@ -113,11 +114,10 @@ def insert_all(go_want, go_desti, start_day, end_day):
     browser.close()
     #  ->
     doc = {
-        'desti': go_desti,
+        'go_desti': go_desti,
         'go_want': go_want,
         'start_day': start_day,
         'end_day': end_day,
         'info': info
     }
     db.mydb.insert_one(doc)
-# insert_all('대구', '스페인', '2020-10-10', '2022-11-10')
