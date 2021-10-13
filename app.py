@@ -1,53 +1,79 @@
-from pymongo import MongoClient
-
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_cors import CORS
-from _google_flight_project import insert_all
+from pymongo import MongoClient
+import jwt
+import requests
+import datetime
+import hashlib
 
 app = Flask(__name__)
 CORS(app)
 
-# client = MongoClient('mongodb://test:test@13.125.216.47', 27017)
-client = MongoClient('localhost', 27017)
-db = client.dbThree
-
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-#API 역할을 하는 부분
-@app.route('/info', methods=['GET'])
-def show_info():
-    air_info = list(db.mydb.find({}, {'_id' : False}))
-    return jsonify({'my_air_info' : air_info})
-
-
-@app.route('/info', methods=['POST'])
-def update_info():
-    info_receive = request.form['info_give']
-
-
-@app.route('/info', methods=['DELETE'])
-def delete_info():
-
-    return jsonify({'msg': '삭제완료'})
-
-from flask import Flask, render_template, request, jsonify, redirect, url_for
-from pymongo import MongoClient
-import requests
-
-app = Flask(__name__)
-
-client = MongoClient('localhost', 27017, username="test", password="test")
+client = MongoClient('3.36.69.62', 27017, username="test", password="test")
 db = client.dbproject
+
+SECRET_KEY = 'end'
 
 @app.route('/voice')
 def voice():
     return render_template("voice.html")
 
-@app.route('/')
+@app.route('/image')
 def main():
     return render_template("index.html")
+
+# login이 기본페이지
+@app.route('/')
+def login():
+    msg = request.args.get("msg")
+    return render_template('login.html', msg=msg)
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+@app.route('/api/register', methods=['POST'])
+def api_register():
+    id_receive = request.form['id_give']
+    pw_receive = request.form['pw_give']
+
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+
+    db.dbproject.insert_one({'id': id_receive, 'pw': pw_hash })
+
+    return jsonify({'result': 'success'})
+
+@app.route('/api/login', methods=['POST'])
+def api_login():
+    id_receive = request.form['id_give']
+    pw_receive = request.form['pw_give']
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+
+    result = db.dbproject.find_one({'id': id_receive, 'pw': pw_hash})
+
+    # 찾으면 JWT 토큰을 만들어 발급합니다.
+    if result is not None:
+        payload = {
+            'id': id_receive,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60 * 60 * 24)
+        }
+        # 문자열객체는 decode가 없다네 ? ~
+        token = jwt.encode(payload, 'end', algorithm='HS256')
+        return jsonify({'result': 'success', 'token': token})
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+
+@app.route('/api/nick', methods=['GET'])
+def api_valid():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        userinfo = db.dbproject.find_one({'id': payload['id']}, {'_id': 0})
+        return jsonify({'result': 'success'})
+    except jwt.ExpiredSignatureError:
+        return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
+    except jwt.exceptions.DecodeError:
+        return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
 
 @app.route('/popup')
 def popup():
@@ -65,7 +91,7 @@ def save_flight():
     end_time = request.form['arr_date_give']
     print("i'm here")
     # 돌아갈때 시간이 텀시간이있다.
-    insert_all(go_want, go_desti, start_time, end_time)
+    # insert_all(go_want, go_desti, start_time, end_time)
     return jsonify({'result': 'success', 'msg': '북마크를 확인하세요!'})
 
 @app.route('/api/add_flight', methods=['GET'])
