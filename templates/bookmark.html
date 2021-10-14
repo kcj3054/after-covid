@@ -8,11 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
-    <meta property="og:title" content="나만의 여행일기장"/>
-    <meta property="og:description" content="미니 프로젝트"/>
-    <meta property="og:image" content="../static/background.jpg"/>
-    <link rel="shortcut icon" href="../static/favicon.png" type="image/x-icon">
-    <link rel="icon" href="../static/favicon.jpg" type="image/x-icon">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -28,61 +23,14 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/e7c8fefeaa.js" crossorigin="anonymous"></script>
-    <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWj2uQhv6jXt0uOA1mUbvgpuyQgu2UnKg&callback=initMap&libraries=places&v=weekly"
-            async></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <link rel="stylesheet" type="text/css" href="../static/style.css"/>
-    <script src="../static/index.js"></script>
 
     <style>
         .navbar-nav {
             font-family: 'Patrick Hand', cursive;
         }
-
-        .background {
-            height: 100vh;
-            background-image: url("../static/background.jpg");
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-
-        .col-md-8 {
-            margin: 10px auto auto 380px;
-        }
-
-        .controls {
-            width: 800px;
-        }
-
-        .desc {
-            color: navy;
-            margin: 210px 0px 0px 0px;
-            text-align: center;
-            font-family: 'East Sea Dokdo', cursive;
-        }
-
     </style>
-
-    <script>
-        function googlemap() {
-            let $
-            ('#pac-input').val() = location
-            $.ajax({
-                type: "POST",
-                url: `/api/save_venues`,
-                data: {
-                    'location_give': location
-                },
-                success: function (response) {
-                    alert(response["msg"])
-                }
-            });
-        }
-    </script>
 </head>
-<body class="background">
+<body>
 <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/"><img src="../static/logo.png"></a>
@@ -103,31 +51,12 @@
                 </li>
                 <!--                <ul style="float:right; list-style-type:none;">-->
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Log In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="signup">Sign up</a>
+                    <a class="nav-link" href="logout">Log Out</a>
                 </li>
                 <!--                </ul>-->
             </ul>
         </div>
     </nav>
-    <div class="desc">
-        <h5>코시국 이후 세계여행 계획을 지금부터 시작해보세요! 원하는 도시를 입력하세요</h5>
-    </div>
-    <div class="col-md-8">
-        <div class="d-flex form-inputs">
-            <input id="pac-input" class="controls" type="text" placeholder="Search any city...">
-            <div id="map"></div>
-            <button type="button" class="btn btn-light" onclick="window.location.href='/detail'"><i
-                    class="fas fa-search"></i></button>
-        </div>
-    </div>
 </div>
-<script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWj2uQhv6jXt0uOA1mUbvgpuyQgu2UnKg&callback=initAutocomplete&libraries=places&v=weekly"
-        async
-></script>
-
 </body>
 </html>

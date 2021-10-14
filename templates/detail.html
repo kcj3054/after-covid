@@ -1,10 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Place Search Pagination</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" type="text/css" href="../static/style_pag.css"/>
+    <script src="../static/index_pag.js"></script>
+
+    <!-- Googlefonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!--    <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap" rel="stylesheet">-->
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/"><img src="../static/logo.png"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav">
+                <!--                <li class="nav-item">-->
+                <a class="nav-link" href="/">Home</a>
+                <!--                </li>-->
+                <!--                <li class="nav-item">-->
+                <a class="nav-link" href="/bookmark">Bookmark</a>
+                <!--                </li>-->
+                <!--                <li class="nav-item">-->
+                <a class="nav-link" href="/diary">Diary</a>
+                <!--                </li>-->
+                <!--                <ul style="float:right; list-style-type:none;">-->
+                <!--                <li class="nav-item">-->
+                <a class="nav-link" href="#">Log Out</a>
+                <!--                </li>-->
+                <!--                </ul>-->
+            </div>
+        </div>
+    </nav>
+</div>
+<div id="container">
+    <div id="map"></div>
+    <div id="sidebar">
+        <h2>Results</h2>
+        <ul id="places"></ul>
+        <button id="more">Load more results</button>
+    </div>
+</div>
 
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWj2uQhv6jXt0uOA1mUbvgpuyQgu2UnKg&callback=initMap&libraries=places&v=weekly"
+        async
+></script>
 </body>
 </html>
