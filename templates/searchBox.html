@@ -258,6 +258,24 @@
                 }
             }
         }
+
+
+            function book() {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/book",
+                    data: {
+                        place_give: $('#places > li').text()
+                    },
+                    success: function (response) {
+                        if (response['result'] == 'success') {
+                            alert('북마크 완료되었습니다.')
+                        } else {
+                            alert(response['msg'])
+                        }
+                    }
+                })
+            }
     </script>
 </head>
 <body>
@@ -273,7 +291,8 @@
     <div id="sidebar">
         <h2>Results</h2>
         <ul id="places"></ul>
-        <button id="more">Load more results</button>
+        <button id="more" >Load more results</button>
+        <button onclick="book()"> 저장 해라 </button>
     </div>
 </div>
 

@@ -18,9 +18,9 @@ SECRET_KEY = 'end'
 def voice():
     return render_template("voice.html")
 
-@app.route('/image')
+@app.route('/book')
 def main():
-    return render_template("index.html")
+    return render_template("searchBox.html")
 
 # login이 기본페이지
 @app.route('/')
@@ -107,6 +107,17 @@ def delete_flight():
 
     return jsonify({'result': 'success', 'msg': '삭제 성공!'})
 
+
+@app.route('/api/book', methods=['POST'])
+def book_save():
+
+
+    place = request.form['place_give']
+    # 빈값이다
+    print(place)
+    db.dbproject.insert_one({'place' : place})
+
+    return jsonify({'result': 'success', 'msg': '북마크 저장 성공!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
