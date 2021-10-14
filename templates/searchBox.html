@@ -3,15 +3,9 @@
 <head>
     <title>Places Search Box</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="../static/index.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css"/>
     <style>
-        /* Always set the map height explicitly to define the size of the div
-     * element that contains the map. */
-        #map {
-            height: 100%;
-        }
-
         /* Optional: Makes the sample page fill the window. */
         html,
         body {
@@ -20,22 +14,79 @@
             padding: 0;
         }
 
-        #description {
-            font-family: Roboto;
-            font-size: 15px;
-            font-weight: 300;
+        #container {
+            height: 100%;
+            display: flex;
         }
 
-        #infowindow-content .title {
-            font-weight: bold;
+        #sidebar {
+            flex-basis: 5rem;
+            flex-grow: 1;
+            padding: 1rem;
+            max-width: 30rem;
+            height: 100%;
+            box-sizing: border-box;
+            overflow: auto;
         }
 
-        #infowindow-content {
-            display: none;
+        #map {
+            flex-basis: 0;
+            flex-grow: 4;
+            height: 100%;
         }
 
-        #map #infowindow-content {
-            display: inline;
+        #sidebar {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 0 0 5px 0;
+            flex-grow: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: scroll;
+            flex-grow: 1;
+        }
+
+        li {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 1.25rem;
+            cursor: pointer;
+        }
+
+        li:nth-child(odd) {
+            background-color: #fcfcfc;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            flex-grow: 0;
+            cursor: pointer;
+            background: #1a73e8;
+            font-size: 1.5rem;
+            color: white;
+            border: none;
+        }
+
+        button:hover {
+            color: #c5d4f0;
+        }
+
+        button:disabled {
+            background-color: #9fc1ee;
+            color: #c5d4f0;
+            cursor: auto;
         }
 
         .pac-card {
@@ -81,19 +132,133 @@
         #pac-input:focus {
             border-color: #4d90fe;
         }
-
-        #title {
-            color: #fff;
-            background-color: #4d90fe;
-            font-size: 25px;
-            font-weight: 500;
-            padding: 6px 12px;
-        }
-
-        #target {
-            width: 345px;
-        }
     </style>
+    <script>
+        //searchBox
+        function initAutocomplete() {
+            // Create the search box and link it to the UI element.
+            const input = document.getElementById("pac-input");
+            const searchBox = new google.maps.places.SearchBox(input);
+
+            searchBox.addListener("places_changed", () => {
+                const places = searchBox.getPlaces();
+                if (places.length == 0) {
+                    return;
+                }
+
+                // For each place, get the icon, name and location.
+                const bounds = new google.maps.LatLngBounds();
+
+                places.forEach((place) => {
+                    if (!place.geometry || !place.geometry.location) {
+                        console.log("Returned place contains no geometry");
+                        return;
+                    }
+
+                    var latitude = place.geometry.location.lat();
+                    var longitude = place.geometry.location.lng();
+
+                    initMap(latitude, longitude);
+                    $("#container").show();
+                });
+            });
+        }
+
+        function initMap(lat, lng) {
+            const pyrmont = {lat: lat, lng: lng};
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: pyrmont,
+                zoom: 17,
+                mapTypeId: "roadmap",
+            });
+
+            // Create the places service.
+            const service = new google.maps.places.PlacesService(map);
+            let getNextPage;
+            const moreButton = document.getElementById("more");
+
+            moreButton.onclick = function () {
+                moreButton.disabled = true;
+                if (getNextPage) {
+                    getNextPage();
+                }
+            };
+
+            // Perform a nearby search.
+            //Pagination
+            service.nearbySearch(
+                {location: pyrmont, radius: 500, type: "store"},
+                (results, status, pagination) => {
+                    if (status !== "OK" || !results) return;
+
+                    addPlaces(results, map);
+                    moreButton.disabled = !pagination || !pagination.hasNextPage;
+                    if (pagination && pagination.hasNextPage) {
+                        getNextPage = () => {
+                            // Note: nextPage will call the same handler function as the initial call
+                            pagination.nextPage();
+                        };
+                    }
+                }
+            );
+        }
+
+        //Pagination
+        function addPlaces(places, map) {
+
+            //추가
+            const infowindow = new google.maps.InfoWindow();
+
+            const placesList = document.getElementById("places");
+            for (const place of places) {
+                if (place.geometry && place.geometry.location) {
+                    const image = {
+                        url: place.icon,
+                        size: new google.maps.Size(71, 71),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(17, 34),
+                        scaledSize: new google.maps.Size(25, 25),
+                    };
+
+                    const marker = new google.maps.Marker({
+                        map,
+                        icon: image,
+                        title: place.name,
+                        position: place.geometry.location,
+                    });
+
+                    //여기에 maps를 넣었다
+                    google.maps.event.addListener(marker, "click", () => {
+                        const content = document.createElement("div");
+                        const nameElement = document.createElement("h2");
+
+                        nameElement.textContent = place.name;
+                        content.appendChild(nameElement);
+
+                        const placeIdElement = document.createElement("p");
+
+                        placeIdElement.textContent = place.place_id;
+                        content.appendChild(placeIdElement);
+
+                        const placeAddressElement = document.createElement("p");
+
+                        placeAddressElement.textContent = place.formatted_address;
+                        content.appendChild(placeAddressElement);
+                        infowindow.setContent(content);
+                        infowindow.open(map, marker);
+                    });
+
+                    const li = document.createElement("li");
+
+                    li.textContent = place.name;
+                    placesList.appendChild(li);
+                    li.addEventListener("click", () => {
+                        map.setCenter(place.geometry.location);
+                    });
+                }
+            }
+        }
+    </script>
 </head>
 <body>
 <input
@@ -102,15 +267,20 @@
         type="text"
         placeholder="Search Box"
 />
-<div id="map"></div>
+{#style 추가 #}
+<div id="container" style="display: none;">
+    <div id="map"></div>
+    <div id="sidebar">
+        <h2>Results</h2>
+        <ul id="places"></ul>
+        <button id="more">Load more results</button>
+    </div>
+</div>
 
-<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<!— Async script executes immediately and must be after any DOM elements used in callback. —>
 <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCivLgBAr6tDoKkaKMMc6uZ95BsFuxtLXs&callback=initAutocomplete&libraries=places&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCivLgBAr6tDoKkaKMMc6uZ95BsFuxtLXs&callback&callback=initAutocomplete&libraries=places&v=weekly"
         async
 ></script>
-<script>
-
-</script>
 </body>
 </html>
