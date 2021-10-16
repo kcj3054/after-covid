@@ -223,6 +223,7 @@
                     const marker = new google.maps.Marker({
                         map,
                         icon: image,
+                        url : 'http://www.google.com/',
                         title: place.name,
                         position: place.geometry.location,
                     });
@@ -235,10 +236,9 @@
                         nameElement.textContent = place.name;
                         content.appendChild(nameElement);
 
-                        const placeIdElement = document.createElement("p");
-
-                        placeIdElement.textContent = place.place_id;
-                        content.appendChild(placeIdElement);
+                           const placeIdElement = document.createElement("a");
+                        placeIdElement.textContent = "https://www.google.com/maps/place/?q=place_id:" + place.place_id;
+                        content.appendChild(placeIdElement)
 
                         const placeAddressElement = document.createElement("p");
 
@@ -246,6 +246,7 @@
                         content.appendChild(placeAddressElement);
                         infowindow.setContent(content);
                         infowindow.open(map, marker);
+
                     });
 
                     const li = document.createElement("li");
