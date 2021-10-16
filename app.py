@@ -156,23 +156,25 @@ def check_dup():
     # print(value_receive, type_receive, exists)
     return jsonify({'result': 'success', 'exists': exists})
 
-# @app.route('/search_venues', methods=["POST"])
-# def search_venues():
-#     venue_receive = request.form['venue_give']
-#
-#     doc = {
-#         'venue': venue_receive
-#     }
-#
-#     db.pac_input.insert_one(doc)
-#
-#     return jsonify({'msg': 'POST 연결되었습니다!'})
-#
-# @app.route('/get_venues', methods=["GET"])
-# def get_venues():
-#     pac_input = list(db.pac_input.find({}, {'_id': False}))
-#     db.pac_input.drop()
-#     return jsonify({'pac_input': pac_input})
+@app.route('/search_venues', methods=["POST"])
+def search_venues():
+    latitude_receive = request.form['latitude_give']
+    longitude_receive = request.form['longitude_give']
+
+    doc = {
+        'latitude': latitude_receive,
+        'longitude': longitude_receive
+    }
+
+    db.pac_input.insert_one(doc)
+
+    return jsonify({'msg': 'POST 연결되었습니다!'})
+
+@app.route('/get_venues', methods=["GET"])
+def get_venues():
+    pac_input = list(db.pac_input.find({}, {'_id': False}))
+    # db.pac_input.drop()
+    return jsonify({'pac_input': pac_input})
 
 @app.route('/save_venues', methods=["POST"])
 def save_venues():
