@@ -85,3 +85,7 @@ body {
 #target {
   width: 345px;
 }
+
+li {
+  display: inline;
+}

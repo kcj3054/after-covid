@@ -3,6 +3,8 @@ from pymongo import MongoClient
 from datetime import datetime, timedelta
 import jwt
 import hashlib
+import requests
+from bs4 import BeautifulSoup
 from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -15,13 +17,19 @@ db = client.aftercovid
 
 
 @app.route('/')
+def load():
+    # return render_template("index.html")
+    return render_template("login.html")
+
+@app.route('/main')
 def main():
+    # return render_template("index.html")
     return render_template("index.html")
 
 
 @app.route('/detail')
 def detail():
-    return render_template("detail.html")
+    return render_template("test.html")
 
 
 @app.route('/bookmark')
@@ -148,15 +156,51 @@ def check_dup():
     # print(value_receive, type_receive, exists)
     return jsonify({'result': 'success', 'exists': exists})
 
-
-# @app.route('/bookmark', methods=["GET"])
-# def save_venues():
-#     return jsonify({'result': 'success'})
-
-# @app.route('/save_venues', methods=["POST"])
-# def save_venues():
+# @app.route('/search_venues', methods=["POST"])
+# def search_venues():
+#     venue_receive = request.form['venue_give']
 #
-#     return jsonify({'result': 'success', 'msg': 'success'})
+#     doc = {
+#         'venue': venue_receive
+#     }
+#
+#     db.pac_input.insert_one(doc)
+#
+#     return jsonify({'msg': 'POST 연결되었습니다!'})
+#
+# @app.route('/get_venues', methods=["GET"])
+# def get_venues():
+#     pac_input = list(db.pac_input.find({}, {'_id': False}))
+#     db.pac_input.drop()
+#     return jsonify({'pac_input': pac_input})
+
+@app.route('/save_venues', methods=["POST"])
+def save_venues():
+    url_receive = request.form['url_give']
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+    data = requests.get(url_receive, headers=headers)
+
+    soup = BeautifulSoup(data.text, 'html.parser')
+
+    title = soup.select_one('meta[property="og:title"]')['content']
+    image = soup.select_one('meta[property="og:image"]')['content']
+    description = soup.select_one('meta[property="og:description"]')['content']
+    doc = {
+        'title': title,
+        'image': image,
+        'description': description,
+        'url': url_receive
+    }
+
+    db.bookmark.insert_one(doc)
+
+    return jsonify({'msg': 'POST 연결되었습니다!'})
+
+@app.route('/post_venues', methods=["GET"])
+def post_venues():
+    venues = list(db.bookmark.find({}, {'_id': False}))
+    return jsonify({'all_venues': venues})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

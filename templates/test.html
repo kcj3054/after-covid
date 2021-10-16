@@ -1,28 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Place Search Pagination</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Places Search Box</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <link rel="stylesheet" type="text/css" href="../static/style_pag.css"/>
-    <script src="../static/index_pag.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="../static/index_test.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/style_test.css"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Googlefonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
-
-    <meta property="og:title" content="나만의 여행일기장"/>
-    <meta property="og:description" content="미니 프로젝트"/>
-    <meta property="og:image" content="../static/background.jpg"/>
-    <link rel="shortcut icon" href="../static/favicon.png" type="image/x-icon">
-    <link rel="icon" href="../static/favicon.jpg" type="image/x-icon">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
 </head>
 <body>
 <div>
@@ -54,7 +49,13 @@
         </div>
     </nav>
 </div>
-<div id="container">
+<input
+        id="pac-input"
+        class="controls"
+        type="text"
+        placeholder="Search Box"
+/>
+<div id="container" style="display: none;">
     <div id="map"></div>
     <div id="sidebar">
         <h2>Results</h2>
@@ -63,9 +64,9 @@
     </div>
 </div>
 
-<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<!— Async script executes immediately and must be after any DOM elements used in callback. —>
 <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWj2uQhv6jXt0uOA1mUbvgpuyQgu2UnKg&callback=initMap&libraries=places&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWj2uQhv6jXt0uOA1mUbvgpuyQgu2UnKg&callback=initAutocomplete&libraries=places&v=weekly"
         async
 ></script>
 </body>
