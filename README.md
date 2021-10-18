@@ -92,7 +92,7 @@ git flow를 사용하면서 진행합니다.
 <div markdown="1">
 - 해당 이유는 저는 항공권이 있는 화면 url을 가리키고 있었는데 오류가 나는 화면에서는 코로나로인해 입국이 금지된 화면이라서 항공정보가 없어서 에러가 발생했습니다.
 - 입국금지가 된 여행지를 제외하고는 정상 작동이 됩니다.
-  </div>
+ </div>
 </details>
 
 #### 로그인 기능 구현 시 에러
@@ -129,15 +129,15 @@ git flow를 사용하면서 진행합니다.
 <div markdown="1">
 - css 파일을 보니 이미 모든 ul에 대해서 적용된 css가 존재.
 - div를 따로 줘서 해결하려고 했으나 여전히 css가 적용되지 않음.
-- li 태그의 내용물인 <a> 태그만 남기고 ul 및 li 태그는 삭제.
+- li 태그의 내용물인 a 태그만 남기고 ul 및 li 태그는 삭제.
 </div>
 </details>
 
-#### URL에 <a> 태그 적용하기
+#### URL에 a 태그 적용하기
 <details>
-<summary>addPlaces 함수 내 infowindow에서 URL에 <a> 태그가 안 먹힘</summary>
+<summary>addPlaces 함수 내 infowindow에서 URL에 a 태그가 안 먹힘</summary>
 <div markdown="1">
-- <a> 태그를 적용하기 위해 creatTextNode, appendChild 속성을 이용함
+- a 태그를 적용하기 위해 creatTextNode, appendChild 속성을 이용함
 </div>
 </details>
 
