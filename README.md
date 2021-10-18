@@ -37,7 +37,6 @@ git flow를 사용하면서 진행합니다.
 2주
 
 # 화면설계
-![image](https://user-images.githubusercontent.com/51309615/134605644-6844eeac-f87f-410c-a44e-15f6575daa5d.png)
 
 # 트러블 슈팅
 #### 셀레니움 문제 
