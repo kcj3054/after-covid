@@ -136,7 +136,7 @@ git flow를 사용하면서 진행합니다.
 <details>
 <summary>addPlaces 함수 내 infowindow에서 URL에 a 태그가 안 먹힘</summary>
 <div markdown="1">
-- a 태그를 적용하기 위해 creatTextNode, appendChild 속성을 이용함.
+- a 태그를 적용하기 위해 createTextNode, appendChild 속성을 이용함.
 </div>
 </details>
 
