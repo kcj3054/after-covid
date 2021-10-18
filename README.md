@@ -118,8 +118,7 @@ git flow를 사용하면서 진행합니다.
 <summary>크롤링을 위한 URL을 넘겨주는 과정에서 에러</summary>
 <div markdown="1">
 - placeIdElement의 id 속성을 이용해 $('#PlaceId').href로 URL을 정의함.<p>
-- addPlaces 함수 밖에서 호출하니 id 만으로는 URL이 불러와지지 않음.<p>
-- save_venues 함수를 addPlaces 안에서 호출 및 PlaceIdElement.href로 URL을 재정의.
+- addPlaces 함수 밖에서 호출하니 id 만으로는 URL이 불러와지지 않음.<p>- save_venues 함수를 addPlaces 안에서 호출 및 PlaceIdElement.href로 URL을 재정의.
 </div>
 </details>
 
