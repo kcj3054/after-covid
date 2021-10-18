@@ -137,7 +137,7 @@ git flow를 사용하면서 진행합니다.
 <details>
 <summary>addPlaces 함수 내 infowindow에서 URL에 a 태그가 안 먹힘</summary>
 <div markdown="1">
-- a 태그를 적용하기 위해 creatTextNode, appendChild 속성을 이용함
+- a 태그를 적용하기 위해 creatTextNode, appendChild 속성을 이용함.
 </div>
 </details>
 
@@ -145,7 +145,7 @@ git flow를 사용하면서 진행합니다.
 <details>
 <summary>메인페이지의 search box 검색 시 지도페이지로 이동하는 기능 구현 시 에러</summary>
 <div markdown="1">
-- 메인페이지에서 initautocomplete으로 위도와 경도 값을 받아서 지도페이지에 넘겨줌.<p>
+- 메인페이지 내 initautocomplete 함수에서 위도와 경도 값을 받아서 지도페이지에 넘겨줌.<p>
 - 받아온 위도, 경도 값에 +를 붙여서 좌표 에러가 뜨는 것을 해결함.
 </div>
 </details>
