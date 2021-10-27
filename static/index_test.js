@@ -1,32 +1,22 @@
-function initAutocomplete() {
-    // Create the search box and link it to the UI element.
-    const input = document.getElementById("pac-input");
-    const searchBox = new google.maps.places.SearchBox(input);
-    searchBox.addListener("places_changed", () => {
-        const places = searchBox.getPlaces();
-        if (places.length == 0) {
-            return;
-        }
+function initMap() {
+    $.ajax({
+        type: "get",
+        url: "/get_venues",
+        data: {},
+        success: function (response) {
+            let location = response['pac_input']
+            for (let i =0; i <location.length; i++){
+                let lat = location[i]['latitude']
+                let lon = location[i]['longitude']
 
-        // For each place, get the icon, name and location.
-        const bounds = new google.maps.LatLngBounds();
-
-        places.forEach((place) => {
-            if (!place.geometry || !place.geometry.location) {
-                console.log("Returned place contains no geometry");
-                return;
+                shawMap(lat, lon);
+                $("#container").show();
             }
-
-            var latitude = place.geometry.location.lat();
-            var longitude = place.geometry.location.lng();
-            initMap(latitude, longitude);
-            $("#container").show();
-        });
-    });
+        }
+    })
 }
-
-function initMap(lat, lng) {
-    const pyrmont = {lat: lat, lng: lng};
+function shawMap(lat, lon) {
+    const pyrmont = {lat: +lat, lng: +lon};
     const map = new google.maps.Map(document.getElementById("map"), {
         center: pyrmont,
         zoom: 17,
@@ -46,6 +36,7 @@ function initMap(lat, lng) {
     };
 
     // Perform a nearby search.
+    $('#places').empty()
     service.nearbySearch(
         {location: pyrmont, radius: 500, type: "store"},
         (results, status, pagination) => {
@@ -144,6 +135,8 @@ function addPlaces(places, map) {
                 bookmarkElement.onclick = save_venues()
 
             });
+
+
 
             const li = document.createElement("li");
 

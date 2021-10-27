@@ -12,7 +12,7 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'SPARTA'
 
-client = MongoClient('3.36.69.62', 27017, username="test", password="test")
+client = MongoClient('localhost', 27017)
 db = client.aftercovid
 
 
@@ -96,6 +96,20 @@ def login():
     return render_template('login.html', msg=msg)
 
 
+@app.route('/user/<username>')
+def user(username):
+    # 각 사용자의 프로필과 글을 모아볼 수 있는 공간
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        status = (username == payload["id"])  # 내 프로필이면 True, 다른 사람 프로필 페이지면 False
+
+        user_info = db.users.find_one({"username": username}, {"_id": False})
+        return render_template('user.html', user_info=user_info, status=status)
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
 @app.route('/sign_in', methods=['GET','POST'])
 def sign_in():
     # 로그인
@@ -142,23 +156,25 @@ def check_dup():
     # print(value_receive, type_receive, exists)
     return jsonify({'result': 'success', 'exists': exists})
 
-# @app.route('/search_venues', methods=["POST"])
-# def search_venues():
-#     venue_receive = request.form['venue_give']
-#
-#     doc = {
-#         'venue': venue_receive
-#     }
-#
-#     db.pac_input.insert_one(doc)
-#
-#     return jsonify({'msg': 'POST 연결되었습니다!'})
-#
-# @app.route('/get_venues', methods=["GET"])
-# def get_venues():
-#     pac_input = list(db.pac_input.find({}, {'_id': False}))
-#     db.pac_input.drop()
-#     return jsonify({'pac_input': pac_input})
+@app.route('/search_venues', methods=["POST"])
+def search_venues():
+    latitude_receive = request.form['latitude_give']
+    longitude_receive = request.form['longitude_give']
+
+    doc = {
+        'latitude': latitude_receive,
+        'longitude': longitude_receive
+    }
+
+    db.pac_input.insert_one(doc)
+
+    return jsonify({'msg': 'POST 연결되었습니다!'})
+
+@app.route('/get_venues', methods=["GET"])
+def get_venues():
+    pac_input = list(db.pac_input.find({}, {'_id': False}))
+    # db.pac_input.drop()
+    return jsonify({'pac_input': pac_input})
 
 @app.route('/save_venues', methods=["POST"])
 def save_venues():
